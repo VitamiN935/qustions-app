@@ -1,0 +1,20 @@
+.ListItem {
+  border: 1px solid white;
+  margin: 6px 0;
+  border-radius: 3px;
+  padding:7px 15px;
+  transition: background-color .22s ease-in;
+
+  &:hover {
+    cursor: pointer;
+    background: rgba(300,300,300, .2);
+  }
+}
+
+.ListItem.fail {
+  background-color: rgba(214, 79, 79, 0.7);
+}
+
+.ListItem.success {
+  background-color: rgba(114, 215, 47, 0.7);
+}

@@ -1,0 +1,28 @@
+.Drawer {
+  position: fixed;
+  background: white;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 80%;
+  max-width: 300px;
+  transform: translateX(0px);
+  transition: transform .22s ease-in;
+  padding: 30px 20px;
+  z-index: 50;
+
+  & li {
+    margin: 5px;
+    border: 1px solid black;
+  }
+
+  & a {
+    text-decoration: none;
+    font-size: 30px;
+    color: black;
+  }
+}
+
+.Drawer.close {
+  transform: translateX(-320px);
+}
