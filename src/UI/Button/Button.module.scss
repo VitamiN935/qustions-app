@@ -1,0 +1,49 @@
+.Button {
+  padding: 8px;
+  border: 2px solid white;
+  border-radius: 4px;
+  font-size: 12px;
+  transition: .4s;
+  margin-right: 15px;
+  text-transform: uppercase;
+
+  &:active, :focus, {
+    border: 2px solid transparent;
+    outline: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    border: 2px solid transparent;
+    transform: scale(1.2);
+  }
+
+  &:disabled {
+    background: grey;
+    cursor: not-allowed;
+    color: black;
+    border: none;
+  }
+}
+
+.primary {
+  &:hover {
+    color: #ffffff;
+    background-color: #915ed4;
+  }
+}
+
+.success {
+  &:hover {
+    color: #f6f5f5;
+    background-color: rgba(130, 243, 4, 0.7)
+  }
+}
+
+.error {
+  &:hover {
+    color: #ffffff;
+    background-color: #d61c35;
+  }
+}

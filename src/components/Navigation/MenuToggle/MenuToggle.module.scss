@@ -1,0 +1,17 @@
+.MenuToggle {
+  position: fixed;
+  left: 25px;
+  top: 25px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: left .22s ease-in;
+  z-index: 50;
+
+  &:hover {
+    opacity: .7;
+  }
+}
+
+.MenuToggle.close {
+  left: 320px;
+}
