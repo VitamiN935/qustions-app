@@ -2,37 +2,24 @@ import React, {Component} from 'react'
 import classes from  './Auth.module.scss'
 import ButtonS from "../../components/UI/ButtonStatic/ButtonS";
 import Input from "../../components/UI/Input/Input";
-import is from 'is_js'
+import {checkValidControl, checkValidForm} from "../../utils/validation";
+import {createControl} from "../../utils/control";
 
 export default class Auth extends Component {
 
   state = {
     isValidForm: false,
     formControls: {
-      email: {
-        value: '',
-        type: 'email',
-        text: 'Email',
+      email: createControl({
+        type:'email',
+        text:'Email',
         errorMessage: 'Укажите корректный email',
-        valid: false,
-        touched: false,
-        validator: {
-          required: true,
-          email: true
-        }
-      },
-      password: {
-        value: '',
-        type: 'password',
-        text: 'Пароль',
+      }, {required: true, email: true}),
+      password: createControl({
+        type:'password',
+        text:'Пароль',
         errorMessage: 'Недасточно символов',
-        valid: false,
-        touched: false,
-        validator: {
-          required: true,
-          minLength: 6
-        }
-      }
+      }, {required: true, minLength: 6})
     }
   }
 
@@ -42,37 +29,15 @@ export default class Auth extends Component {
   }
   onRegisterHandle = () => {}
 
-  isValid = (value, validator = null) => {
-    if (!validator) return true;
-    let valid = true;
-
-    if(validator.required) {
-      valid = value.trim() !== '' && valid
-    }
-
-    if(validator.email) {
-      valid = is.email(value) && valid
-    }
-
-    if(validator.minLength) {
-      valid = value.trim().length >= validator.minLength && valid;
-    }
-
-    return  valid;
-  }
-
   changeControlHandle = (value, controlName) => {
     const formControls = clone(this.state.formControls);
     const control = formControls[controlName];
-    let isValidForm = true;
 
     control.value = value;
     control.touched = true
-    control.valid = this.isValid(control.value, control.validator);
+    control.valid = checkValidControl(control.value, control.validation)
 
-    isValidForm = Object.keys(formControls).every(controlName => {
-      return formControls[controlName].valid
-    }) && isValidForm
+    let isValidForm = checkValidForm(formControls)
 
     this.setState({formControls, isValidForm})
   }
@@ -84,7 +49,7 @@ export default class Auth extends Component {
         <Input
           key={idx}
           {...control}
-          shouldValidate={!!control.validator}
+          shouldValidate={!!control.validation}
           onChange={e => this.changeControlHandle(e.target.value.trim(), controlName)}
         />
       )
