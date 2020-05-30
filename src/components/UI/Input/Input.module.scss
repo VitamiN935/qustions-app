@@ -1,0 +1,30 @@
+.Input {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 5px;
+
+  label {
+    margin: 5px 0;
+    font-size: 18px;
+    color: black;
+  }
+
+  input {
+    border: 1px solid #a5a4a4;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  &.Error {
+    label {
+      color: rgba(231, 51, 51, 0.96);
+    }
+
+    span {
+      font-size: 11px;
+      color: rgba(231, 51, 51, 0.96);
+    }
+  }
+}

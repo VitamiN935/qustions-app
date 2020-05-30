@@ -12,8 +12,8 @@
   z-index: 50;
 
   & li {
-    margin: 5px;
-    border: 1px solid black;
+    margin: 15px 5px;
+    padding: 5px 0;
   }
 
   & a {
@@ -25,4 +25,17 @@
 
 .Drawer.close {
   transform: translateX(-320px);
+}
+
+.Drawer a {
+
+  &.active {
+    color: grey;
+    opacity: .7;
+  }
+
+  &:hover {
+    color: grey;
+    opacity: .7;
+  }
 }

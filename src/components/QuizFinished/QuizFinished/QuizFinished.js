@@ -1,9 +1,9 @@
 import React from "react";
 import classes from './QuizFinished.module.scss'
-import Button from "../../../UI/Button/Button";
+import Button from "../../UI/Button/Button";
+import {Link} from 'react-router-dom'
 
 const getItem = (id, result, question) => {
-  console.log(result, question)
   const cls = ['fa'];
   cls.push(result === 'success' ? classes.success : classes.fail);
   cls.push(result === 'success' ? 'fa-check ' : 'fa-times ')
@@ -31,7 +31,9 @@ export default props => {
       <p>Правильно {successCount} из {values.length}</p>
       <div className={classes['QuizFinished-footbar']}>
         <Button type={'primary'} onClick={props.retryHandle}>Повторить</Button>
-        <Button type={'success'}>Перейти в список тестов</Button>
+        <Link to='/'>
+          <Button type={'success'}>Перейти в список тестов</Button>
+        </Link>
       </div>
     </div>
   )

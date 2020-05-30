@@ -1,0 +1,79 @@
+.Button {
+  padding: 7px 10px;
+  text-transform: uppercase;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform, box-shadow, .22s ease-in;
+  border: 1px solid transparent;
+  outline: none;
+  font-weight: bold;
+
+  &:disabled {
+    border: 1px solid #b0a5a5 !important;
+    color: black !important;
+    background: #aba5a5 !important;
+  }
+}
+
+.Button.transform {
+  &:hover {
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, .25);
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+}
+
+.Button.primary {
+  color: #fff;
+  background: rgba(55, 55, 215, 0.97);
+
+  &:hover {
+    color: rgba(55, 55, 215, 0.97);
+    background: #fff;
+    border: 1px solid rgba(55, 55, 215, 0.97);
+  }
+}
+
+.Button.success {
+  color: #fff;
+  background: rgba(55, 215, 90, 0.97);
+
+  &:hover {
+    color: rgba(55, 215, 90, 0.97);
+    background: #fff;
+    border: 1px solid rgba(55, 215, 90, 0.97);
+  }
+}
+
+.Button.error {
+  color: rgba(215, 55, 55, 0.97);
+  background: #fff;
+  border: 1px solid rgba(215, 55, 55, 0.97);
+
+  &:hover {
+    color: #fff;
+    background: rgba(215, 55, 55, 0.97);
+  }
+}
+
+.Button.warning {
+  color: #000000;
+  background: rgba(214, 197, 42, 0.97);
+
+  &:hover {
+    color: rgba(214, 197, 42, 0.97);
+    background: #000000;
+    border: 1px solid rgba(214, 197, 42, 0.97);
+  }
+}
+
+.Button.standard {
+  color: #000000;
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid black;
+
+  &:hover {
+    color: rgba(227, 219, 219, 0.97);
+    background: #000000;
+  }
+}
+
