@@ -6,6 +6,8 @@ import {createControl} from "../../utils/control";
 import {clone} from "../../utils/copy";
 import Select from "../../components/UI/Select/Select";
 import {checkValidControl, checkValidForm} from "../../utils/validation";
+import axios from 'axios'
+import {urlAllQuiz} from "../../other/url";
 
 const initialState = {
   quiz: [],
@@ -45,7 +47,7 @@ export default class QuizCreator extends Component {
 
     return {
       title: question.value,
-      rightId: this.state.rightAnswer,
+      rightId: +this.state.rightAnswer,
       answers: [
         {id: 1, text: option1.value},
         {id: 2, text: option2.value},
@@ -61,7 +63,13 @@ export default class QuizCreator extends Component {
     this.setState({ ...clone(initialState), quiz })
   }
 
-  createTestHandler = () => {
+  createTestHandler = async () => {
+    try {
+      await axios.post(urlAllQuiz, this.state.quiz);
+      this.setState({...initialState})
+    } catch (e) {
+      console.error(e.message)
+    }
   }
 
   validateControlHandler = (value, controlName) => {

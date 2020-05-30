@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
-import classes from  './Auth.module.scss'
+import classes from './Auth.module.scss'
 import ButtonS from "../../components/UI/ButtonStatic/ButtonS";
 import Input from "../../components/UI/Input/Input";
 import {checkValidControl, checkValidForm} from "../../utils/validation";
 import {createControl} from "../../utils/control";
+import axios from 'axios'
+import {urlSignIn, urlSignUp} from "../../other/url";
+import {API_KEY} from "../../keys";
 
 export default class Auth extends Component {
 
@@ -11,23 +14,45 @@ export default class Auth extends Component {
     isValidForm: false,
     formControls: {
       email: createControl({
-        type:'email',
-        text:'Email',
+        type: 'email',
+        text: 'Email',
         errorMessage: 'Укажите корректный email',
       }, {required: true, email: true}),
       password: createControl({
-        type:'password',
-        text:'Пароль',
+        type: 'password',
+        text: 'Пароль',
         errorMessage: 'Недасточно символов',
       }, {required: true, minLength: 6})
     }
   }
 
-  onSubmit = e => e.preventDefault()
-  onLoginHandle = () => {
-    console.log('Login handle')
+  createBodyFromFb = () => {
+    const {email, password} = this.state.formControls
+    return {
+      email: email.value,
+      password: password.value,
+      returnSecureToken: true
+    }
   }
-  onRegisterHandle = () => {}
+
+  onSubmit = e => e.preventDefault()
+  onLoginHandle = async () => {
+    try {
+      const response = await axios.post(urlSignIn + API_KEY, this.createBodyFromFb())
+      console.log(response.data)
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
+
+  onRegisterHandle = async () => {
+    try {
+      const response = await axios.post(urlSignUp + API_KEY, this.createBodyFromFb())
+      console.log(response.data)
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
 
   changeControlHandle = (value, controlName) => {
     const formControls = clone(this.state.formControls);

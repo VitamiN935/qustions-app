@@ -2,36 +2,31 @@ import React, {Component} from "react";
 import classes from './Quiz.module.scss'
 import Question from "../../components/Question/Question";
 import QuizFinished from "../../components/QuizFinished/QuizFinished/QuizFinished";
+import Loader from "../../components/UI/Loader/Loader";
+import axios from 'axios'
+import {urlAllQuiz} from "../../other/url";
+import {formatUrlGetQuiz} from "../../utils/async";
 
 export default class Quiz extends Component{
 
   state = {
+    loadQuiz: false,
     isFinished: false,
     results: {},
     answerState: null,
     activeQuestion: 0,
-    quiz: [
-      {
-        title: 'Какого цвета нет в радуге?',
-        rightId: 2,
-        answers: [
-          {id: 1, text: 'Зеленый'},
-          {id: 2, text: 'Оливковый'},
-          {id: 3, text: 'Желтый'},
-          {id: 4, text: 'Красный'},
-        ]
-      },
-      {
-        title: 'Что из перечисленного не относится к фруктам?',
-        rightId: 3,
-        answers: [
-          {id: 1, text: 'Апельсин'},
-          {id: 2, text: 'Яблоко'},
-          {id: 3, text: 'Арбуз'},
-          {id: 4, text: 'Киви'},
-        ]
-      },
-    ]
+    quiz: []
+  }
+
+  async componentDidMount() {
+    try {
+      const quizId = this.props.match.params.id
+      const url = formatUrlGetQuiz(quizId)
+      const response = await axios.get(url);
+      this.setState({quiz: response.data, loadQuiz: true})
+    } catch (e) {
+      console.error(e.message)
+    }
   }
 
   isQuizEnd = () => {
@@ -64,8 +59,8 @@ export default class Quiz extends Component{
     if (this.state.answerState) {
       return;
     }
-
     const question = this.state.quiz[this.state.activeQuestion]
+    console.log(question.rightId, answerId)
     if (question.rightId === answerId) {
       this.setState({
         results: {...this.state.results, [this.state.activeQuestion]: 'success'},
@@ -85,8 +80,10 @@ export default class Quiz extends Component{
     return (
       <section className={classes.Quiz}>
         <div className={classes['Quiz-wrapper']}>
-          <h1>Ответьте на все вопросы</h1>
-          {
+          <h1 style={!this.state.loadQuiz ? {textAlign: 'center'} : null}>
+            Ответьте на все вопросы
+          </h1>
+          { !this.state.loadQuiz ? <Loader /> :
             this.state.isFinished
             ? <QuizFinished
                 questions={this.state.quiz}
