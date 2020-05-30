@@ -1,9 +1,13 @@
 .Layout {
-  background: linear-gradient(90deg, rgba(132, 98, 196, 0.87), rgba(176, 125, 214, 0.96));
-  color: #fff;
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  main {
+    height: 100%;
+    width: 100%;
+  }
 }
+

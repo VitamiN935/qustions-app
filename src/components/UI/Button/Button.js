@@ -9,6 +9,7 @@ export default props => {
 
   return (
     <button
+      style={props.style}
       className={cls.join(' ')}
       onClick={props.onClick}
       disabled={props.disabled}

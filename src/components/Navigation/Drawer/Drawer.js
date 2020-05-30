@@ -1,17 +1,27 @@
 import React from "react";
 import classes from './Drawer.module.scss'
+import {NavLink} from 'react-router-dom'
+
+const links = [
+  {to: '/', text: 'Список', exact: true},
+  {to: '/auth', text: 'Авторизация', exact: false},
+  {to: '/quizCreate', text: 'Создать тест', exact: false},
+]
 
 export default class Drawer extends React.Component {
 
-  state = {
-    links: [1, 2, 3]
-  }
-
   renderLinks() {
-    return this.state.links.map((link, idx) => {
+    return links.map((link, idx) => {
       return (
         <li key={idx}>
-          <a href="#">Link {link}</a>
+          <NavLink
+            to={link.to}
+            exact={link.exact}
+            activeClassName={classes.active}
+            onClick={this.props.toggleMenu}
+          >
+            {link.text}
+          </NavLink>
         </li>
       )
     })

@@ -2,7 +2,7 @@ import React from "react";
 import classes from  './Layout.module.scss'
 import MenuToggle from "../../components/Navigation/MenuToggle/MenuToggle";
 import Drawer from "../../components/Navigation/Drawer/Drawer";
-import BackDrop from "../../UI/BackDrop/BackDrop";
+import BackDrop from "../../components/UI/BackDrop/BackDrop";
 
 export default class Layout extends React.Component{
 
@@ -18,7 +18,7 @@ export default class Layout extends React.Component{
     return (
       <div className={classes.Layout}>
 
-        <Drawer isOpen={this.state.menuIsOpen}/>
+        <Drawer isOpen={this.state.menuIsOpen} toggleMenu={this.toggleMenuHandle}/>
         <MenuToggle toggleMenu={this.toggleMenuHandle} isOpen={this.state.menuIsOpen}/>
         <main>
           {this.props.children}
