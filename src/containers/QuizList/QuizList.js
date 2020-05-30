@@ -1,15 +1,38 @@
 import React, {Component} from 'react'
 import classes from './QuizList.module.scss'
 import {NavLink} from  'react-router-dom'
+import axios from 'axios'
+import {urlAllQuiz} from "../../other/url";
+import Loader from "../../components/UI/Loader/Loader";
 
 export default class QuizList extends Component {
 
+  state = {
+    loadData: false,
+    quizList: []
+  }
+
+  async componentDidMount() {
+    try {
+      const response = await axios.get(urlAllQuiz)
+      const quizList = [];
+
+      Object.keys(response.data).forEach((testName, idx) => {
+        quizList.push({id: idx, name: testName})
+      })
+
+      this.setState({quizList, loadData: true})
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
+
   getAllTests() {
-    return [1,2,3].map((test, idx) => {
+    return this.state.quizList.map((quiz, idx) => {
       return (
-        <li>
-          <NavLink to={`/quiz/${test}`}>
-            Тест {test}
+        <li key={quiz.name + '-' + quiz.id}>
+          <NavLink to={`/quiz/${quiz.name}`}>
+            {`Teст № ${idx + 1}`}
           </NavLink>
         </li>
       )
@@ -22,7 +45,7 @@ export default class QuizList extends Component {
         <section>
           <h1>Список тестов</h1>
           <ul>
-            {this.getAllTests()}
+            {this.state.loadData ? this.getAllTests() : <Loader />}
           </ul>
         </section>
       </div>
