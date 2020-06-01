@@ -6,11 +6,10 @@ import {createControl} from "../../utils/control";
 import {clone} from "../../utils/copy";
 import Select from "../../components/UI/Select/Select";
 import {checkValidControl, checkValidForm} from "../../utils/validation";
-import axios from 'axios'
-import {urlAllQuiz} from "../../other/url";
+import {connect} from "react-redux";
+import {actionAddQuestion, actionCreateQuiz} from "../../store/Actions/actionsCreator";
 
 const initialState = {
-  quiz: [],
   rightAnswer: 1,
   isValidForm: false,
   formControls: createFormControls()
@@ -36,7 +35,7 @@ function createFormControls() {
   }
 }
 
-export default class QuizCreator extends Component {
+class QuizCreator extends Component {
 
   state = { ...clone(initialState) }
 
@@ -58,18 +57,13 @@ export default class QuizCreator extends Component {
   }
 
   addQuestionHandler = () => {
-    const quiz = clone(this.state.quiz);
-    quiz.push(this.getQuestionData())
-    this.setState({ ...clone(initialState), quiz })
+   this.props.addQuestion(this.getQuestionData())
+    this.setState({ ...clone(initialState)})
   }
 
-  createTestHandler = async () => {
-    try {
-      await axios.post(urlAllQuiz, this.state.quiz);
-      this.setState({...initialState})
-    } catch (e) {
-      console.error(e.message)
-    }
+  createTestHandler = () => {
+    this.props.createQuiz()
+    this.setState({...initialState})
   }
 
   validateControlHandler = (value, controlName) => {
@@ -135,12 +129,27 @@ export default class QuizCreator extends Component {
             <ButtonS
               type={'success'}
               onClick={this.createTestHandler}
-              disabled={this.state.quiz.length === 0}
+              disabled={this.props.quiz.length === 0}
             >Создать тест</ButtonS>
 
           </form>
         </section>
       </div>
     )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuizCreator)
+
+function mapStateToProps(state) {
+  return {
+    quiz: state.creator.quiz
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addQuestion: item => dispatch(actionAddQuestion(item)),
+    createQuiz: () => dispatch(actionCreateQuiz())
   }
 }

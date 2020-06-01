@@ -4,11 +4,11 @@ import ButtonS from "../../components/UI/ButtonStatic/ButtonS";
 import Input from "../../components/UI/Input/Input";
 import {checkValidControl, checkValidForm} from "../../utils/validation";
 import {createControl} from "../../utils/control";
-import axios from 'axios'
-import {urlSignIn, urlSignUp} from "../../other/url";
-import {API_KEY} from "../../keys";
+import {connect} from "react-redux";
+import {clone} from "../../utils/copy";
+import {actionLogin} from "../../store/Actions/actionsAuth";
 
-export default class Auth extends Component {
+class Auth extends Component {
 
   state = {
     isValidForm: false,
@@ -26,32 +26,22 @@ export default class Auth extends Component {
     }
   }
 
-  createBodyFromFb = () => {
-    const {email, password} = this.state.formControls
-    return {
-      email: email.value,
-      password: password.value,
-      returnSecureToken: true
-    }
-  }
-
   onSubmit = e => e.preventDefault()
-  onLoginHandle = async () => {
-    try {
-      const response = await axios.post(urlSignIn + API_KEY, this.createBodyFromFb())
-      console.log(response.data)
-    } catch (e) {
-      console.error(e.message)
-    }
+
+  onLoginHandle = () => {
+    this.props.login(
+      this.state.formControls.email.value,
+      this.state.formControls.password.value,
+      true
+    )
   }
 
-  onRegisterHandle = async () => {
-    try {
-      const response = await axios.post(urlSignUp + API_KEY, this.createBodyFromFb())
-      console.log(response.data)
-    } catch (e) {
-      console.error(e.message)
-    }
+  onRegisterHandle = () => {
+    this.props.login(
+      this.state.formControls.email.value,
+      this.state.formControls.password.value,
+      false
+    )
   }
 
   changeControlHandle = (value, controlName) => {
@@ -111,4 +101,10 @@ export default class Auth extends Component {
   }
 }
 
-const clone = target => JSON.parse(JSON.stringify(target))
+export default connect(null, mapDispatchToProps)(Auth)
+
+function mapDispatchToProps(dispatch) {
+  return {
+    login: (email,password, isLogin) => dispatch(actionLogin(email,password, isLogin))
+  }
+}
