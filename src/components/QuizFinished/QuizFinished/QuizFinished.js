@@ -8,7 +8,7 @@ const getItem = (id, result, question) => {
   cls.push(result === 'success' ? classes.success : classes.fail);
   cls.push(result === 'success' ? 'fa-check ' : 'fa-times ')
   return (
-    <li>
+    <li key={id}>
       <span>{+id + 1}. {question.title}</span>
       <i className={cls.join(' ')}> </i>
     </li>
