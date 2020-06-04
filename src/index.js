@@ -6,15 +6,25 @@ import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from 'react-router-dom'
 import {createStore, applyMiddleware, compose} from "redux";
 import {Provider} from "react-redux";
-import rootReducer from "./store/Reducers/rootReducer";
 import reduxThunk from 'redux-thunk'
+import createSagaMiddleWare from 'redux-saga'
+import rootReducer from "./store/Reducers/rootReducer";
+import {sagaWatcher} from "./store/saga/watcher";
+import {filterMiddleWear} from "./store/middlewear/filterMiddleWear";
+import {textAlertMiddleWear} from "./store/middlewear/textAlertMiddleWear";
 
+
+const saga = createSagaMiddleWare()
 const composeEnhancers =
         typeof window === 'object' &&
         window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
           window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(reduxThunk)))
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(
+  reduxThunk, saga, filterMiddleWear, textAlertMiddleWear
+)))
+
+saga.run(sagaWatcher)
 
 const app = (
   <Provider store={store}>
@@ -22,7 +32,6 @@ const app = (
       <App/>
     </BrowserRouter>
   </Provider>
-
 )
 
 ReactDOM.render(app, document.getElementById('root'));

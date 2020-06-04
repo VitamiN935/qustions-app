@@ -2,6 +2,7 @@ import {urlSignIn, urlSignUp} from "../../other/url";
 import {API_KEY} from "../../keys";
 import axios from "axios";
 import * as types from "./actionTypes";
+import {actionShowAlert} from "./appActions";
 
 export function actionLogin(email, password, isLogin) {
   return async dispatch => {
@@ -10,6 +11,7 @@ export function actionLogin(email, password, isLogin) {
     if (isLogin) {
       url = urlSignIn + API_KEY
     }
+    let text = isLogin ? 'Вы авторизованы' : 'Поздравляем с регистрацией!'
     try {
       const response = await axios.post(url, body)
       const data = response.data;
@@ -20,8 +22,9 @@ export function actionLogin(email, password, isLogin) {
 
       dispatch(authSuccess(data.idToken))
       dispatch(autoLogout(data.expiresIn))
+      dispatch(actionShowAlert({text, type: 'success'}))
     } catch (e) {
-      console.error(e.message)
+      dispatch(actionShowAlert({text: 'Email или Пароль не верны', type: 'danger'}))
     }
   }
 }

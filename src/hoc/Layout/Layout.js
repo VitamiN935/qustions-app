@@ -4,6 +4,7 @@ import MenuToggle from "../../components/Navigation/MenuToggle/MenuToggle";
 import Drawer from "../../components/Navigation/Drawer/Drawer";
 import BackDrop from "../../components/UI/BackDrop/BackDrop";
 import {connect} from "react-redux";
+import Alert from "../../components/Warning/Alert/Alert";
 
 class Layout extends React.Component{
 
@@ -25,6 +26,7 @@ class Layout extends React.Component{
           isLogin={this.props.isLogin}
         />
         <MenuToggle toggleMenu={this.toggleMenuHandle} isOpen={this.state.menuIsOpen}/>
+        <Alert />
         <main>
           {this.props.children}
         </main>

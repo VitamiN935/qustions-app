@@ -1,7 +1,6 @@
 import * as types from "./actionTypes";
 import axios from 'axios'
 import {urlAllQuiz} from "../../other/url";
-import {formatUrlGetQuiz} from "../../utils/async";
 
 export function actionFetchQuizList() {
   return async (dispatch) => {
@@ -21,15 +20,9 @@ export function actionFetchQuizList() {
 }
 
 export function actionFetchQuiz(quizId) {
-  return async (dispatch) => {
-    dispatch(fetchQuizStart())
-    try {
-      const url = formatUrlGetQuiz(quizId)
-      const response = await axios.get(url);
-      dispatch(fetchQuizSuccess(response.data))
-    } catch (e) {
-      dispatch(fetchQuizError(e))
-    }
+  return {
+    type: types.SAGA_FETCH_QUIZ,
+    id: quizId
   }
 }
 
@@ -89,27 +82,27 @@ function quizSetState(results, answerState) {
   }
 }
 
-function fetchQuizSuccess(quiz) {
+export function fetchQuizSuccess(quiz) {
   return {
     type: types.FETCH_QUIZ_SUCCESS,
     payload: quiz
   }
 }
 
-function fetchQuizStart() {
+export function fetchQuizStart() {
   return {
     type: types.FETCH_QUIZ_START
   }
 }
 
-function fetchQuizListSuccess(payload) {
+export function fetchQuizListSuccess(payload) {
   return {
     type: types.FETCH_QUIZ_LIST_SUCCESS,
     payload
   }
 }
 
-function fetchQuizError(error) {
+export function fetchQuizError(error) {
   return {
     type: types.FETCH_QUIZ_ERROR,
     error
